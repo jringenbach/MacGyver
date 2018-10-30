@@ -3,7 +3,6 @@
 
 import json
 import os
-import path
 
 def jsonToDictionary():
     """Open a json file and set its datas in a dictionary"""
@@ -15,6 +14,5 @@ def jsonToDictionary():
     #We open the json file
     jsonFile = open(filePath)
     data = json.load(jsonFile)
-    data["title_screen_path"] = path.setTitleScreenPath("title_screen.png")
 
     return data
