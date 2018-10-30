@@ -46,5 +46,9 @@ while quit_game == False:
     
     playerChoice = display.displayTitleScreen(conf, window)
 
-    #Depending on the choice in the title screen, display the right thing
-    pass
+    #We launch the game
+    if playerChoice == "1":
+        pass
+        
+    else:
+        quit_game = True

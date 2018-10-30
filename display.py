@@ -5,8 +5,12 @@
 #                           IMPORT
 # ----------------------------------------------------------------
 
+#Python modules
 import pygame
 from pygame.locals import *
+
+#My own modules
+import eventHandler
 
 # ----------------------------------------------------------------
 #                           METHODS
@@ -27,7 +31,8 @@ def displayTitleScreen(conf, window):
     while continuer:
         for event in pygame.event.get():
             if event.type == KEYDOWN:
-                print("A key has been pressed.")
+                print("A key has been pressed : "+str(event.key))
+                continuer = eventHandler.titleScreenKeydown(event)
 
             elif event.type == QUIT:
                 print("Goodbye!")
