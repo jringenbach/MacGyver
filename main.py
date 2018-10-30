@@ -5,11 +5,14 @@
 #                           IMPORT
 # ----------------------------------------------------------------
 
+#python library
 import os
 import pygame
 from pygame.locals import *
 
+#My own methods
 import configGame
+import display
 import readJSON
 
 # ----------------------------------------------------------------
@@ -20,6 +23,7 @@ conf = None
 keep_playing = True
 player_choice = None
 quit_game = False
+window = None
 
 # ----------------------------------------------------------------
 #                      CORE OF THE GAME
@@ -35,9 +39,12 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'
 conf = readJSON.jsonToDictionary()
 conf = configGame.setConfiguration(conf)
 
+#We set the window configuration
+window = pygame.display.set_mode((conf["window_width"], conf["window_height"]))
 
 while quit_game == False:
-    #display title screen
+    
+    playerChoice = display.displayTitleScreen(conf, window)
 
     #Depending on the choice in the title screen, display the right thing
     pass
