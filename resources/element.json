@@ -1,0 +1,8 @@
+{
+    "Needle" : "N",
+    "Wall" : "X",
+    "Tube" : "T",
+    "Start" : "S",
+    "Guardian" : "G",
+    "Ether" : "E"
+}
