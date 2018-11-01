@@ -16,7 +16,7 @@ def titleScreenKeydown(event):
     continuer = True
 
     #The player choses to play a new game
-    if event.key == K_1:
+    if event.key == K_KP1:
         continuer = False
 
     return continuer

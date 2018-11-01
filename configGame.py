@@ -6,6 +6,6 @@ import path
 def setConfiguration(config_dict):
     """Set all the configuration of the game """
 
-    config_dict["title_screen_path"] = path.setTitleScreenPath("title_screen.png")
+    config_dict["title_screen_path"] = path.setPath("resources/img","title_screen.png")
 
     return config_dict

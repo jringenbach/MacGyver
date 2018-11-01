@@ -44,11 +44,14 @@ window = pygame.display.set_mode((conf["window_width"], conf["window_height"]))
 
 while quit_game == False:
     
+    #We display the title screen
     playerChoice = display.displayTitleScreen(conf, window)
 
     #We launch the game
     if playerChoice == "1":
-        pass
-        
+
+        #At launch, we display the first level
+        quit_game = display.displayLevel(1)
+
     else:
         quit_game = True

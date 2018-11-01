@@ -11,12 +11,12 @@ import os
 #                           METHODS
 # ----------------------------------------------------------------
 
-def setTitleScreenPath(title_screen_name):
-    """Set the path where the title screen is """
+def setPath(pathFolder, file_name):
+    """Set the path for a file """
 
     directory = os.path.dirname(__file__)
-    title_screen_path = os.path.join(directory, "resources/img", title_screen_name)
+    file_path = os.path.join(directory, pathFolder, file_name)
 
-    print("Title Screen Path : "+title_screen_path)
+    print("File path : "+file_path)
 
-    return title_screen_path
+    return file_path
