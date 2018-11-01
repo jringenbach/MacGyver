@@ -50,14 +50,21 @@ def displayTitleScreen(conf, window):
 
 
 
-def displayLevel(numLevel):
+def displayLevel(numLevel, window):
     """Display the level of the game"""
 
+    #Method variables
     quit_game = False
     keep_playing = True
     level = Level(numLevel)
-    level.printCSVGrid()
-    print("display level : level "+str(level.numLevel))
+    level.setTilesOnScreen(window)
+
+    print("Loading level : "+str(level.numLevel))
+
+    #background = pygame.image.load("resources/img/fond.jpg").convert()
+    #window.blit(background, (0,0))
+    #pygame.display.flip()
+
 
     #While the level is not over
     while keep_playing:

@@ -1,6 +1,18 @@
 #! /usr/bin/env python3
 # coding: utf-8
+
+
+# ----------------------------------------------------------------
+#                           IMPORT
+# ----------------------------------------------------------------
+
+
+#Python library
+import pygame
+from pygame.locals import *
 import os
+
+#My own library
 import path
 
 class Level:
@@ -20,6 +32,9 @@ class Level:
         self._csvGrid = list()
         self._set_CSV_Grid()
 
+        self._tilesPath = None
+        self._set_tiles_path()
+
 # ----------------------------------------------------------------
 #                            SETTERS/GETTERS
 # ----------------------------------------------------------------
@@ -33,7 +48,7 @@ class Level:
 
 
     def _set_CSV_Path(self):
-        """Set the csv path """
+        """Set the csv path depending on the number of the level"""
 
         fileName = "level"+str(self.numLevel)+".csv"
         self._csvPath = path.setPath("resources/levels",fileName)
@@ -55,14 +70,58 @@ class Level:
 
 
 
+    def _get_tiles_path(self):
+        """Get the tiles"""
+        return self._tilesPath
+
+
+
+    def _set_tiles_path(self):
+        """Set the tiles"""
+
+        #Loading the image for the tiles
+        self._tilesPath = path.setPath("resources/img","floor-tiles-20x20.png")
+        print(self._tilesPath)
+
+
+
+
     csvPath = property(_get_CSV_Path, _set_CSV_Path)
     csvGrid = property(_get_CSV_Grid, _set_CSV_Grid)
+    tiles = property(_get_tiles_path, _set_tiles_path)
 
 
 # ----------------------------------------------------------------
 #                            METHODS
 # ----------------------------------------------------------------
-    
+    def setTilesOnScreen(self, window):
+        """Display the tiles of the level on the window of the game"""
+        i = 0
+
+        #We load the image where the tiles are
+        tileImage = pygame.image.load(self._get_tiles_path()).convert_alpha()
+
+        #In the image, there are a lot of tiles. We will create a surface to crop just one tile.
+        surface = pygame.Surface((20,20))
+
+        #We place the image on the surface and crop it
+        self._tiles = surface.blit(tileImage, (0,0), (0,0,20,20))
+
+        while i < 15:
+
+            j = 0
+            while j < 15:
+
+                #Load only part of an image
+                #https://stackoverflow.com/questions/38535330/load-only-part-of-an-image-in-pygame
+                window.blit(tileImage, (i*20,j*20), (0,0,20,20))
+
+                j = j + 1
+            i = i + 1
+        
+        pygame.display.flip()
+
+
     def printCSVGrid(self):
         """Print the csv grid on the terminal"""
 

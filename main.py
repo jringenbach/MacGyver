@@ -51,7 +51,7 @@ while quit_game == False:
     if playerChoice == "1":
 
         #At launch, we display the first level
-        quit_game = display.displayLevel(1)
+        quit_game = display.displayLevel(1, window)
 
     else:
         quit_game = True
