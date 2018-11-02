@@ -12,12 +12,12 @@ import os
 #                           METHODS
 # ----------------------------------------------------------------
 
-def jsonToDictionary():
+def jsonToDictionary(directoryfile, jsonName):
     """Open a json file and set its datas in a dictionary"""
 
     #We set the path where we'll get the title screen image
-    directory = os.path.dirname(__file__)
-    filePath = os.path.join(directory, "conf.json")
+    directoryproject = os.path.dirname(__file__)
+    filePath = os.path.join(directoryproject, directoryfile, jsonName)
 
     #We open the json file
     jsonFile = open(filePath)

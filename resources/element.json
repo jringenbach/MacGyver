@@ -1,8 +1,30 @@
 {
-    "Needle" : "N",
-    "Wall" : "X",
-    "Tube" : "T",
-    "Start" : "S",
-    "Guardian" : "G",
-    "Ether" : "E"
+    "Needle" : {
+        "Symbol" : "N",
+        "BlockThePlayer" : "False"}
+    ,
+    "Wall" : {
+        "Symbol" : "X",
+        "BlockThePlayer" : "True"}
+    ,
+    "Tube" : {
+        "Symbol" : "T",
+        "BlockThePlayer" : "False"
+    },
+    "Start" : {
+        "Symbol" : "S",
+        "BlockThePlayer" : "False"
+    },
+    "Guardian" :{
+        "Symbol" : "G",
+        "BlockThePlayer" : "True"
+    },
+    "Ether" : {
+        "Symbol" : "E",
+        "BlockThePlayer" : "False"
+    },
+    "MacGyver" : {
+        "Symbol" : "M",
+        "BlockThePlayer" : "False"
+    }
 }

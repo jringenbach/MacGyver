@@ -36,7 +36,7 @@ pygame.init()
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 #We get the configuration of the game and we set some properties
-conf = readJSON.jsonToDictionary()
+conf = readJSON.jsonToDictionary("", "conf.json")
 conf = configGame.setConfiguration(conf)
 
 #We set the window configuration

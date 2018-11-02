@@ -57,9 +57,11 @@ def displayLevel(numLevel, window):
     quit_game = False
     keep_playing = True
     level = Level(numLevel)
-    level.setTilesOnScreen(window)
-
     print("Loading level : "+str(level.numLevel))
+
+    #Displaying the level
+    level.setTilesOnScreen(window, len(level._get_CSV_Grid()), len(level._get_CSV_Grid()[0]))
+    level.setElementsOnScreen(window)
 
     #background = pygame.image.load("resources/img/fond.jpg").convert()
     #window.blit(background, (0,0))

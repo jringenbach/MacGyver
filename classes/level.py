@@ -18,6 +18,7 @@ import random
 from classes.cell import Cell
 from classes.element import Element
 import path
+import readJSON
 
 class Level:
     """Represents the levels of the game
@@ -48,6 +49,7 @@ class Level:
         self._set_cells(15, 15)
 
         self.randElementInCells()
+        self.setCellsFromCSV()
 
 
 # ----------------------------------------------------------------
@@ -120,9 +122,9 @@ class Level:
     def _set_elements(self):
         """Set the list of elements that are contained in the level"""
 
-        self._elements.append(Element("Needle", False))
-        self._elements.append(Element("Tube", False))
-        self._elements.append(Element("Ether", False))
+        self._elements.append(Element("Needle"))
+        self._elements.append(Element("Tube"))
+        self._elements.append(Element("Ether"))
 
 
 
@@ -151,37 +153,6 @@ class Level:
 # ----------------------------------------------------------------
 #                            METHODS
 # ----------------------------------------------------------------
-
-    def setCSVCell(self, x, y, symbol):
-        """Set an element symbol in the csv grid"""
-        self._csvGrid[y][x] = symbol
-
-    def setTilesOnScreen(self, window):
-        """Display the tiles of the level on the window of the game"""
-        i = 0
-
-        #We load the image where the tiles are
-        tileImage = pygame.image.load(self._get_tiles_path()).convert_alpha()
-
-        #In the image, there are a lot of tiles. We will create a surface to crop just one tile.
-        surface = pygame.Surface((20,20))
-
-        #We place the image on the surface and crop it
-        surface.blit(tileImage, (0,0), (0,0,20,20))
-
-        while i < 15:
-
-            j = 0
-            while j < 15:
-
-                #Load only part of an image
-                #https://stackoverflow.com/questions/38535330/load-only-part-of-an-image-in-pygame
-                window.blit(tileImage, (i*20,j*20), (0,0,20,20))
-
-                j = j + 1
-            i = i + 1
-        
-        pygame.display.flip()
 
 
 
@@ -218,3 +189,87 @@ class Level:
                     self.setCSVCell(x, y, element._get_CSV_symbol())
                     print(element.name+" is on cell : ["+str(x)+","+str(y)+"]")
                     randAgain = False
+
+
+
+    def setCellsFromCSV(self):
+        """Set the elements of the csv list into the cell list"""
+        i = 0
+        for line in self._get_CSV_Grid():
+            j = 0
+
+            for cellcsv in line:
+                #If the cell in the csv is not empty
+                if cellcsv == "":
+                    pass
+
+                elif cellcsv == "S":
+                    self._cells[i][j] = Cell(j, i)
+                    self._cells[i][j].element = Element("MacGyver")
+
+                else:
+                    symbolDict = readJSON.jsonToDictionary("resources", "element.json")
+                    elementName = Element.getNameFromSymbolInDict(symbolDict, cellcsv)
+                    self._cells[i][j] = Cell(j, i)
+                    self._cells[i][j].element = Element(elementName)
+                j = j + 1
+            
+            i = i + 1
+                    
+        
+
+
+
+    def setCSVCell(self, x, y, symbol):
+        """Set an element symbol in the csv grid"""
+        self._csvGrid[y][x] = symbol
+
+
+
+    def setElementsOnScreen(self, window):
+        """Set elements of the level on the window screen"""
+        i = 0
+        #We go through the csv grid
+        for line in self._get_cells():
+            j = 0
+
+            for cell in line:
+                print(type(cell))
+                if cell.element is not None:
+                    elementImage = pygame.image.load(cell.element._get_skin())
+                    window.blit(elementImage, (j*40, i*40))
+                
+                j = j + 1
+            
+            i = i + 1
+        pygame.display.flip()
+        
+
+
+
+    def setTilesOnScreen(self, window, heightGrid, widthGrid):
+        """Display the tiles of the level on the window of the game"""
+        i = 0
+
+        #We load the image where the tiles are
+        tileImage = pygame.image.load(self._get_tiles_path()).convert_alpha()
+
+        #In the image, there are a lot of tiles. We will create a surface to crop just one tile.
+        surface = pygame.Surface((20,20))
+
+        #We place the image on the surface and crop it
+        surface.blit(tileImage, (0,0), (0,0,20,20))
+
+        while i < heightGrid * 2:
+
+            j = 0
+            while j < widthGrid * 2:
+
+                #Load only part of an image
+                #https://stackoverflow.com/questions/38535330/load-only-part-of-an-image-in-pygame
+                window.blit(tileImage, (i*20,j*20), (0,0,20,20))
+
+                j = j + 1
+            i = i + 1
+        
+        pygame.display.flip()
