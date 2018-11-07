@@ -73,7 +73,10 @@ def displayLevel(numLevel, window):
         
         for event in pygame.event.get():
             if event.type == KEYDOWN:
-                pass
+                nextPlayerPosition = eventHandler.playerMovement(event, level)
+                if nextPlayerPosition is not None:
+                    movementIsValid = level.checkIfMovementIsValid(nextPlayerPosition)
+                    print("--------- End of turn ---------")
             
             elif event.type == QUIT:
                 print("Goodbye")

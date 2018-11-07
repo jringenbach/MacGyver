@@ -35,6 +35,7 @@ class Element:
         self._set_block_the_player()
 
 
+
 # ----------------------------------------------------------------
 #                      GETTERS AND SETTERS
 # ----------------------------------------------------------------
@@ -48,6 +49,7 @@ class Element:
             self.blockThePlayer = True
         else:
             self.blockThePlayer = False
+
 
 
     def _get_skin(self):

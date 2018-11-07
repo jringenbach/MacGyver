@@ -48,6 +48,8 @@ class Level:
         self._cells = list()
         self._set_cells(15, 15)
 
+        self.playerCoordinates = tuple()
+
         self.randElementInCells()
         self.setCellsFromCSV()
 
@@ -156,6 +158,53 @@ class Level:
 
 
 
+    def checkIfPlayerIsOutOfGrid(self, nextPlayerPosition):
+        """We check if the player is out of the grid of the level"""
+
+        playerOutOfGrid = bool()
+
+        if pos_x < 0 or pos_x >= len(self._get_cells()[0]) or pos_y < 0 or pos_y >= len(self._get_cells()):
+            playerOutOfGrid = True
+
+        else:
+            playerOutOfGrid = False
+
+        return playerOutOfGrid
+
+
+
+    def checkIfMovementIsValid(self, nextPlayerPosition):
+        """We check if the player can move according to the key he has pressed."""
+
+        pos_x = nextPlayerPosition[0]
+        pos_y = nextPlayerPosition[1]
+        movementIsValid = bool()
+
+
+        if self.checkIfPlayerIsOutOfGrid == True:
+            print("Player is out of the grid")
+            movementIsValid = False
+
+
+        #If the player is not out of the grid
+        else:
+            print("Player is in the grid")
+            cell = self._get_cells()[pos_y][pos_x]
+            if cell.element is not None:
+                if cell.element.blockThePlayer == True:
+                    movementIsValid = False
+                
+                else:
+                    movementIsValid = True
+
+            else:
+                movementIsValid = True
+        
+        print("Movement is valid : "+str(movementIsValid))
+        return movementIsValid
+
+
+
     def printCSVGrid(self):
         """Print the csv grid on the terminal"""
 
@@ -206,6 +255,7 @@ class Level:
                 elif cellcsv == "S":
                     self._cells[i][j] = Cell(j, i)
                     self._cells[i][j].element = Element("MacGyver")
+                    self.playerCoordinates = (j, i)
 
                 else:
                     symbolDict = readJSON.jsonToDictionary("resources", "element.json")
