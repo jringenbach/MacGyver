@@ -12,7 +12,7 @@
         "BlockThePlayer" : "False"
     },
     "Start" : {
-        "Symbol" : "S",
+        "Symbol" : "P",
         "BlockThePlayer" : "False"
     },
     "Guardian" :{

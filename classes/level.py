@@ -203,6 +203,34 @@ class Level:
         print("Movement is valid : "+str(movementIsValid))
         return movementIsValid
 
+    def editCellAndGrid(self, element, oldPosition, newPosition):
+        """Edit the csvGrid and the cells with the new coordinates of an element"""
+
+        old_x = oldPosition[0]
+        old_y = oldPosition[1]
+        new_x = newPosition[0]
+        new_y = newPosition[1]
+
+        #We empty the previous cell
+        self._get_CSV_Grid()[old_y][old_x] = ""
+        self._get_cells()[old_y][old_x].element = None
+
+        #We fill the new cell
+        self._get_CSV_Grid()[new_y][new_x] = element._get_CSV_symbol()
+        self._get_cells()[new_y][new_x].element = element
+
+
+    
+    def movePlayer(self, nextPlayerPosition):
+        """Move the player on the coordinates nextPlayerPosition"""
+
+        old_x = self.playerCoordinates[0]
+        old_y = self.playerCoordinates[1]
+
+        self.editCellAndGrid(self._get_cells()[old_y][old_x].element, self.playerCoordinates, nextPlayerPosition)
+
+        self.playerCoordinates = nextPlayerPosition
+
 
 
     def printCSVGrid(self):
@@ -252,7 +280,7 @@ class Level:
                 if cellcsv == "":
                     pass
 
-                elif cellcsv == "S":
+                elif cellcsv == "P":
                     self._cells[i][j] = Cell(j, i)
                     self._cells[i][j].element = Element("MacGyver")
                     self.playerCoordinates = (j, i)
