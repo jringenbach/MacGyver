@@ -56,41 +56,63 @@ def displayLevel(numLevel, window):
     #Method variables
     quit_game = False
     keep_playing = True
-    level = Level(numLevel)
-    print("Loading level : "+str(level.numLevel))
+    levelRestart = True
+    playerWin = bool()
 
-    #Displaying the level
-    level.setTilesOnScreen(window, len(level._get_CSV_Grid()), len(level._get_CSV_Grid()[0]))
-    level.setElementsOnScreen(window)
+
+
+
 
     #background = pygame.image.load("resources/img/fond.jpg").convert()
     #window.blit(background, (0,0))
     #pygame.display.flip()
 
-
+    while levelRestart:
     #While the level is not over
-    while keep_playing:
-        
-        for event in pygame.event.get():
-            if event.type == KEYDOWN:
-                nextPlayerPosition = eventHandler.playerMovement(event, level)
+        #Displaying the level
+        level = Level(numLevel)
+        print("Loading level : "+str(level.numLevel))
+        keep_playing = True
+        level.setTilesOnScreen(window, len(level._get_CSV_Grid()), len(level._get_CSV_Grid()[0]))
+        level.setElementsOnScreen(window)
 
-                if nextPlayerPosition is not None:
-                    movementIsValid = level.checkIfMovementIsValid(nextPlayerPosition)
-
-                    if movementIsValid:
-                        level.movePlayer(nextPlayerPosition)
-
-                        #Displaying the level
-                        level.setTilesOnScreen(window, len(level._get_CSV_Grid()), len(level._get_CSV_Grid()[0]))
-                        level.setElementsOnScreen(window)
-                    print("--------- End of turn ---------")
-
+        while keep_playing:
             
-            elif event.type == QUIT:
-                print("Goodbye")
-                keep_playing = False #We exit the cycle where we listen for events
-                quit_game = True #We exit the cycle of the game
+            for event in pygame.event.get():
+                if event.type == KEYDOWN:
+                    nextPlayerPosition = eventHandler.playerMovement(event, level)
+
+                    if nextPlayerPosition is not None:
+                        movementIsValid = level.checkIfMovementIsValid(nextPlayerPosition)
+
+                        if movementIsValid:
+                            level.checkIfPlayerIsOnElement(nextPlayerPosition)
+                            playerWin = level.checkIfPlayerIsOnGuardian(nextPlayerPosition)
+
+                            if playerWin is None:
+                                level.movePlayer(nextPlayerPosition)
+
+                            elif playerWin == True:
+                                print("Player wins.")
+                                keep_playing = False
+                                levelRestart = False
+
+                            else:
+                                keep_playing = False
+                                levelRestart = True
+                            
+
+                            #Displaying the level
+                            level.setTilesOnScreen(window, len(level._get_CSV_Grid()), len(level._get_CSV_Grid()[0]))
+                            level.setElementsOnScreen(window)
+                        print("--------- End of turn ---------")
+
+                
+                elif event.type == QUIT:
+                    print("Goodbye")
+                    keep_playing = False #We exit the cycle where we listen for events
+                    quit_game = True #We exit the cycle of the game
+                    levelRestart = False
 
     return quit_game
     

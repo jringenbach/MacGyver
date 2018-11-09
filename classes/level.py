@@ -46,6 +46,7 @@ class Level:
         self._set_elements()
 
         self._cells = list()
+        self.guardianCoordinates = tuple()
         self._set_cells(15, 15)
 
         self.playerCoordinates = tuple()
@@ -203,6 +204,57 @@ class Level:
         print("Movement is valid : "+str(movementIsValid))
         return movementIsValid
 
+
+
+    def checkIfPlayerIsOnElement(self, nextPlayerPosition):
+        """Check if the player will be on an element that will help him to end the level"""
+
+        pos_x = nextPlayerPosition[0]
+        pos_y = nextPlayerPosition[1]
+
+        elementToCheck = self._get_cells()[pos_y][pos_x].element
+
+        if elementToCheck is not None:
+            print("Element to check : "+elementToCheck.name)
+
+        for element in self._get_elements():
+            if elementToCheck is not None and elementToCheck.name == element.name:
+                print("Player got the "+element.name)
+                self._get_elements().remove(element)
+
+
+
+    def checkIfPlayerIsOnGuardian(self, nextPlayerPosition):
+        """We check if the player has reached the guardian (end of the level).
+        If he reaches him and has all the element (len(self._getelements()) == 0, then he has won"""
+
+        playerWin = bool()
+
+        print("Guardian coordinates")
+        print(self.guardianCoordinates)
+
+        #If the player will reach the guardian
+        if nextPlayerPosition == self.guardianCoordinates:
+            print("Next player position equals guardian position")
+
+            #If he has all the elements (needle, tube and ether), he wins
+            if len(self._get_elements()) == 0:
+                print("Playerwin = true : method")
+                playerWin = True
+
+            #If he doesn't have all the elements, he loses
+            else:
+                playerWin = False
+
+        #If he will not reach the guardian at the next move
+        else:
+            playerWin = None
+
+        return playerWin
+        
+
+
+
     def editCellAndGrid(self, element, oldPosition, newPosition):
         """Edit the csvGrid and the cells with the new coordinates of an element"""
 
@@ -285,6 +337,11 @@ class Level:
                     self._cells[i][j].element = Element("MacGyver")
                     self.playerCoordinates = (j, i)
 
+                elif cellcsv == "G":
+                    self._cells[i][j] = Cell(j, i)
+                    self._cells[i][j].element = Element("Guardian")
+                    self.guardianCoordinates = (j, i)                  
+
                 else:
                     symbolDict = readJSON.jsonToDictionary("resources", "element.json")
                     elementName = Element.getNameFromSymbolInDict(symbolDict, cellcsv)
@@ -312,7 +369,6 @@ class Level:
             j = 0
 
             for cell in line:
-                print(type(cell))
                 if cell.element is not None:
                     elementImage = pygame.image.load(cell.element._get_skin())
                     window.blit(elementImage, (j*40, i*40))

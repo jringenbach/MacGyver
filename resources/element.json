@@ -11,20 +11,16 @@
         "Symbol" : "T",
         "BlockThePlayer" : "False"
     },
-    "Start" : {
+    "MacGyver" : {
         "Symbol" : "P",
         "BlockThePlayer" : "False"
     },
     "Guardian" :{
         "Symbol" : "G",
-        "BlockThePlayer" : "True"
+        "BlockThePlayer" : "False"
     },
     "Ether" : {
         "Symbol" : "E",
-        "BlockThePlayer" : "False"
-    },
-    "MacGyver" : {
-        "Symbol" : "M",
         "BlockThePlayer" : "False"
     }
 }
