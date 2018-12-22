@@ -11,7 +11,6 @@ import pygame
 from pygame.locals import *
 
 #My own methods
-import configGame
 import display
 import readJSON
 
@@ -22,7 +21,8 @@ import readJSON
 conf = None
 keep_playing = True
 player_choice = None
-quit_game = False
+gameStatus = dict()
+gameStatus["quit_game"] = False
 window = None
 
 # ----------------------------------------------------------------
@@ -36,22 +36,33 @@ pygame.init()
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 #We get the configuration of the game and we set some properties
-conf = readJSON.jsonToDictionary("", "conf.json")
-conf = configGame.setConfiguration(conf)
+conf = readJSON.json_to_dictionary("", "conf.json")
 
 #We set the window configuration
 window = pygame.display.set_mode((conf["window_width"], conf["window_height"]))
 
-while quit_game == False:
-    
-    #We display the title screen
-    playerChoice = display.displayTitleScreen(conf, window)
+#We display the title screen
+player_choice = display.display_image(conf["title_screen_path"], window)
+
+#Game cycle
+while gameStatus["quit_game"] == False:
+    print("boucle de jeu")
 
     #We launch the game
-    if playerChoice == "1":
+    if player_choice == "1":
+        player_choice = None
 
         #At launch, we display the first level
-        quit_game = display.displayLevel(1, window)
+        gameStatus = display.display_level(1, window)
+        if gameStatus["quit_game"] != True:
+            if gameStatus["playerWin"] == True:
+                player_choice = display.display_image(conf["victory_path"], window)
+
+            elif gameStatus["playerWin"] == False:
+                player_choice = display.display_image(conf["defeat_path"], window)
+
+            if player_choice is None:
+                gameStatus["quit_game"] = True
 
     else:
-        quit_game = True
+        gameStatus["quit_game"] = True

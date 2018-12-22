@@ -12,7 +12,7 @@ import os
 #                           METHODS
 # ----------------------------------------------------------------
 
-def jsonToDictionary(directoryfile, jsonName):
+def json_to_dictionary(directoryfile, jsonName):
     """Open a json file and set its datas in a dictionary"""
 
     #We set the path where we'll get the title screen image

@@ -9,7 +9,7 @@
 import pygame
 from pygame.locals import *
 
-def playerMovement(event, level):
+def player_movement(event, level):
     """Treats the movement of the player"""
 
     nextPlayerPosition = tuple()
@@ -39,7 +39,7 @@ def playerMovement(event, level):
 
 
 
-def titleScreenKeydown(event):
+def title_screen_keydown(event):
     """Handle the keydown event during the title screen"""
     
     continuer = True

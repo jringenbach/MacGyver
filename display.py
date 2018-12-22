@@ -3,7 +3,8 @@
 
 # ----------------------------------------------------------------
 #                           IMPORT
-# ----------------------------------------------------------------
+# ----------------------------------------------------------------#
+
 
 #Python modules
 import pygame
@@ -17,14 +18,14 @@ import eventHandler
 #                           METHODS
 # ----------------------------------------------------------------
 
-def displayTitleScreen(conf, window):
+def display_image(imgPath, window):
     """Display the title screen in the window"""
 
     continuer = True
     playerChoice = None
 
     #Methods to display the title screen in the window
-    titleScreen = pygame.image.load(conf["title_screen_path"]).convert()
+    titleScreen = pygame.image.load(imgPath).convert()
     window.blit(titleScreen, (0,0))
     pygame.display.flip()
 
@@ -34,7 +35,7 @@ def displayTitleScreen(conf, window):
 
             if event.type == KEYDOWN:
                 print("A key has been pressed : "+str(event.key))
-                continuer = eventHandler.titleScreenKeydown(event)
+                continuer = eventHandler.title_screen_keydown(event)
                 playerChoice = "1"
 
             elif event.type == MOUSEBUTTONDOWN and event.button == 1:
@@ -49,8 +50,7 @@ def displayTitleScreen(conf, window):
     return playerChoice
 
 
-
-def displayLevel(numLevel, window):
+def display_level(numLevel, window):
     """Display the level of the game"""
 
     #Method variables
@@ -58,10 +58,7 @@ def displayLevel(numLevel, window):
     keep_playing = True
     levelRestart = True
     playerWin = bool()
-
-
-
-
+    gameStatus = dict()
 
     #background = pygame.image.load("resources/img/fond.jpg").convert()
     #window.blit(background, (0,0))
@@ -73,24 +70,24 @@ def displayLevel(numLevel, window):
         level = Level(numLevel)
         print("Loading level : "+str(level.numLevel))
         keep_playing = True
-        level.setTilesOnScreen(window, len(level._get_CSV_Grid()), len(level._get_CSV_Grid()[0]))
-        level.setElementsOnScreen(window)
+        level.set_tiles_on_screen(window, len(level._get_CSV_Grid()), len(level._get_CSV_Grid()[0]))
+        level.set_elements_on_screen(window)
 
         while keep_playing:
             
             for event in pygame.event.get():
-                if event.type == KEYDOWN:
-                    nextPlayerPosition = eventHandler.playerMovement(event, level)
+                if event.type == KEYDOWN and (event.key == K_LEFT or event.key == K_RIGHT or event.key == K_DOWN or event.key == K_UP):
+                    nextPlayerPosition = eventHandler.player_movement(event, level)
 
                     if nextPlayerPosition is not None:
-                        movementIsValid = level.checkIfMovementIsValid(nextPlayerPosition)
+                        movementIsValid = level.check_if_movement_is_valid(nextPlayerPosition)
 
                         if movementIsValid:
-                            level.checkIfPlayerIsOnElement(nextPlayerPosition)
-                            playerWin = level.checkIfPlayerIsOnGuardian(nextPlayerPosition)
+                            level.check_if_player_is_on_element(nextPlayerPosition)
+                            playerWin = level.check_if_player_is_on_guardian(nextPlayerPosition)
 
                             if playerWin is None:
-                                level.movePlayer(nextPlayerPosition)
+                                level.move_player(nextPlayerPosition)
 
                             elif playerWin == True:
                                 print("Player wins.")
@@ -98,13 +95,14 @@ def displayLevel(numLevel, window):
                                 levelRestart = False
 
                             else:
+                                print("Player loses")
                                 keep_playing = False
-                                levelRestart = True
+                                levelRestart = False
                             
 
                             #Displaying the level
-                            level.setTilesOnScreen(window, len(level._get_CSV_Grid()), len(level._get_CSV_Grid()[0]))
-                            level.setElementsOnScreen(window)
+                            level.set_tiles_on_screen(window, len(level._get_CSV_Grid()), len(level._get_CSV_Grid()[0]))
+                            level.set_elements_on_screen(window)
                         print("--------- End of turn ---------")
 
                 
@@ -114,5 +112,9 @@ def displayLevel(numLevel, window):
                     quit_game = True #We exit the cycle of the game
                     levelRestart = False
 
-    return quit_game
+    gameStatus = { "quit_game" : quit_game,
+    "playerWin" : playerWin
+    }
+
+    return gameStatus
     

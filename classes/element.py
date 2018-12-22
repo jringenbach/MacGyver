@@ -43,7 +43,7 @@ class Element:
 
     def _set_block_the_player(self):
         """Set blockThePlayer from the dict"""
-        dictionary = readJSON.jsonToDictionary("resources", "element.json")
+        dictionary = readJSON.json_to_dictionary("resources", "element.json")
 
         if dictionary[self.name]["BlockThePlayer"] == "True":
             self.blockThePlayer = True
@@ -62,7 +62,7 @@ class Element:
     def _set_skin(self):
         """Set the path for the skin to be displayed for this element"""
         fileName = self.name.lower()+"-40x40.png"
-        self._skin = path.setPath("resources/img", fileName)
+        self._skin = path.set_path("resources/img", fileName)
 
 
 
@@ -80,7 +80,7 @@ class Element:
 
         else:
             #We set the path to the json file that contains the correspondence table between name of an element and its symbol
-            symbolDictPath = path.setPath("resources", "element.json")
+            symbolDictPath = path.set_path("resources", "element.json")
 
             try:
                 jsonDict = open(symbolDictPath)

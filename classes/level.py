@@ -28,7 +28,10 @@ class Level:
     :csvPath: Path to find the csv where the level is contained. (string)
     :csvGrid: Grid that contains all the symbols loaded from the csv. (list of lists)
     :tilesPath: Path to the png file of the tiles (string)
-    :element: list of the elements in the level"""
+    :element: list of the elements in the level
+    :cells: list of cells in the level
+    :guardianCoordinates: tuple that contains the guardian coordinates (x,y)
+    :playerCoordinates: tuple that contains the player coordinates (x,y)"""
 
     def __init__(self, numLevel):
         self.numLevel = numLevel
@@ -51,8 +54,8 @@ class Level:
 
         self.playerCoordinates = tuple()
 
-        self.randElementInCells()
-        self.setCellsFromCSV()
+        self.rand_element_in_cells()
+        self.set_cells_from_csv()
 
 
 # ----------------------------------------------------------------
@@ -94,7 +97,7 @@ class Level:
         """Set the csv path depending on the number of the level"""
 
         fileName = "level"+str(self.numLevel)+".csv"
-        self._csvPath = path.setPath("resources/levels",fileName)
+        self._csvPath = path.set_path("resources/levels",fileName)
 
 
 
@@ -110,6 +113,8 @@ class Level:
         with open(self._get_CSV_Path(), "r") as csvFile:
             for line in csvFile:
                 lineList = line.split(",")
+                
+                #We delete the \n a the end of the line
                 lineList[len(lineList)-1] = lineList[len(lineList)-1].replace("\n", "")
                 
                 self._csvGrid.append(lineList)
@@ -141,7 +146,7 @@ class Level:
         """Set the tiles"""
 
         #Loading the image for the tiles
-        self._tilesPath = path.setPath("resources/img","floor-tiles-20x20.png")
+        self._tilesPath = path.set_path("resources/img","floor-tiles-20x20.png")
 
 
 
@@ -163,7 +168,9 @@ class Level:
         """We check if the player is out of the grid of the level"""
 
         playerOutOfGrid = bool()
-
+        pos_x = nextPlayerPosition[0]
+        pos_y = nextPlayerPosition[1]
+        
         if pos_x < 0 or pos_x >= len(self._get_cells()[0]) or pos_y < 0 or pos_y >= len(self._get_cells()):
             playerOutOfGrid = True
 
@@ -174,7 +181,7 @@ class Level:
 
 
 
-    def checkIfMovementIsValid(self, nextPlayerPosition):
+    def check_if_movement_is_valid(self, nextPlayerPosition):
         """We check if the player can move according to the key he has pressed."""
 
         pos_x = nextPlayerPosition[0]
@@ -206,7 +213,7 @@ class Level:
 
 
 
-    def checkIfPlayerIsOnElement(self, nextPlayerPosition):
+    def check_if_player_is_on_element(self, nextPlayerPosition):
         """Check if the player will be on an element that will help him to end the level"""
 
         pos_x = nextPlayerPosition[0]
@@ -224,7 +231,7 @@ class Level:
 
 
 
-    def checkIfPlayerIsOnGuardian(self, nextPlayerPosition):
+    def check_if_player_is_on_guardian(self, nextPlayerPosition):
         """We check if the player has reached the guardian (end of the level).
         If he reaches him and has all the element (len(self._getelements()) == 0, then he has won"""
 
@@ -255,7 +262,7 @@ class Level:
 
 
 
-    def editCellAndGrid(self, element, oldPosition, newPosition):
+    def edit_cell_and_grid(self, element, oldPosition, newPosition):
         """Edit the csvGrid and the cells with the new coordinates of an element"""
 
         old_x = oldPosition[0]
@@ -273,19 +280,19 @@ class Level:
 
 
     
-    def movePlayer(self, nextPlayerPosition):
+    def move_player(self, nextPlayerPosition):
         """Move the player on the coordinates nextPlayerPosition"""
 
         old_x = self.playerCoordinates[0]
         old_y = self.playerCoordinates[1]
 
-        self.editCellAndGrid(self._get_cells()[old_y][old_x].element, self.playerCoordinates, nextPlayerPosition)
+        self.edit_cell_and_grid(self._get_cells()[old_y][old_x].element, self.playerCoordinates, nextPlayerPosition)
 
         self.playerCoordinates = nextPlayerPosition
 
 
 
-    def printCSVGrid(self):
+    def print_csv_grid(self):
         """Print the csv grid on the terminal"""
 
         try:
@@ -297,7 +304,7 @@ class Level:
 
 
 
-    def randElementInCells(self):
+    def rand_element_in_cells(self):
         """Insert elements of the level in random cells"""
 
 
@@ -321,7 +328,7 @@ class Level:
 
 
 
-    def setCellsFromCSV(self):
+    def set_cells_from_csv(self):
         """Set the elements of the csv list into the cell list"""
         i = 0
         for line in self._get_CSV_Grid():
@@ -343,7 +350,7 @@ class Level:
                     self.guardianCoordinates = (j, i)                  
 
                 else:
-                    symbolDict = readJSON.jsonToDictionary("resources", "element.json")
+                    symbolDict = readJSON.json_to_dictionary("resources", "element.json")
                     elementName = Element.getNameFromSymbolInDict(symbolDict, cellcsv)
                     self._cells[i][j] = Cell(j, i)
                     self._cells[i][j].element = Element(elementName)
@@ -361,7 +368,7 @@ class Level:
 
 
 
-    def setElementsOnScreen(self, window):
+    def set_elements_on_screen(self, window):
         """Set elements of the level on the window screen"""
         i = 0
         #We go through the csv grid
@@ -381,7 +388,7 @@ class Level:
 
 
 
-    def setTilesOnScreen(self, window, heightGrid, widthGrid):
+    def set_tiles_on_screen(self, window, heightGrid, widthGrid):
         """Display the tiles of the level on the window of the game"""
         i = 0
 

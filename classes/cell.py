@@ -21,5 +21,5 @@ class Cell:
 
 
     def getCellInformation(self):
-        """Display information about the cell in the terminale"""
+        """Display information about the cell in the terminal"""
         print("Cell ["+str(self.pos_x)+","+str(self.pos_y)+"] : "+self.element.name)

@@ -11,7 +11,7 @@ import os
 #                           METHODS
 # ----------------------------------------------------------------
 
-def setPath(pathFolder, file_name):
+def set_path(pathFolder, file_name):
     """Set the path for a file and returns it as a string"""
 
     directory = os.path.dirname(__file__)
