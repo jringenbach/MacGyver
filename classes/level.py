@@ -146,7 +146,7 @@ class Level:
         """Set the tiles"""
 
         #Loading the image for the tiles
-        self._tilesPath = path.set_path("resources/img","floor-tiles-20x20.png")
+        self._tilesPath = path.set_path("resources/img","floor.png")
 
 
 
@@ -383,8 +383,6 @@ class Level:
                 j = j + 1
             
             i = i + 1
-        pygame.display.flip()
-        
 
 
 
@@ -396,10 +394,10 @@ class Level:
         tileImage = pygame.image.load(self._get_tiles_path()).convert_alpha()
 
         #In the image, there are a lot of tiles. We will create a surface to crop just one tile.
-        surface = pygame.Surface((20,20))
+        #surface = pygame.Surface((20,20))
 
         #We place the image on the surface and crop it
-        surface.blit(tileImage, (0,0), (0,0,20,20))
+        #surface.blit(tileImage, (0,0), (0,0,20,20))
 
         while i < heightGrid * 2:
 
@@ -408,9 +406,7 @@ class Level:
 
                 #Load only part of an image
                 #https://stackoverflow.com/questions/38535330/load-only-part-of-an-image-in-pygame
-                window.blit(tileImage, (i*20,j*20), (0,0,20,20))
+                window.blit(tileImage, (i*20,j*20))
 
                 j = j + 1
             i = i + 1
-        
-        pygame.display.flip()

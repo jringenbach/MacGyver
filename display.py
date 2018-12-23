@@ -60,10 +60,6 @@ def display_level(numLevel, window):
     playerWin = bool()
     gameStatus = dict()
 
-    #background = pygame.image.load("resources/img/fond.jpg").convert()
-    #window.blit(background, (0,0))
-    #pygame.display.flip()
-
     while levelRestart:
     #While the level is not over
         #Displaying the level
@@ -72,9 +68,11 @@ def display_level(numLevel, window):
         keep_playing = True
         level.set_tiles_on_screen(window, len(level._get_CSV_Grid()), len(level._get_CSV_Grid()[0]))
         level.set_elements_on_screen(window)
+        pygame.display.flip()
+
 
         while keep_playing:
-            
+
             for event in pygame.event.get():
                 if event.type == KEYDOWN and (event.key == K_LEFT or event.key == K_RIGHT or event.key == K_DOWN or event.key == K_UP):
                     nextPlayerPosition = eventHandler.player_movement(event, level)
@@ -98,11 +96,12 @@ def display_level(numLevel, window):
                                 print("Player loses")
                                 keep_playing = False
                                 levelRestart = False
-                            
 
-                            #Displaying the level
                             level.set_tiles_on_screen(window, len(level._get_CSV_Grid()), len(level._get_CSV_Grid()[0]))
                             level.set_elements_on_screen(window)
+                            pygame.display.flip()
+
+                            
                         print("--------- End of turn ---------")
 
                 
