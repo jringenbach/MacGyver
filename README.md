@@ -16,6 +16,9 @@ pygame
 
 Launch
 --------------------------------
-To launch the game, write "python3 main.py" in your terminal after you set your virtual environment under python3.7
+Clone the repository on your computer : https://github.com/jringenbach/MacGyver.git
+Set your virtual environment under python3.7
+Pip install pygame (in your virtual environment)
+Write "python3 main.py" in your terminal
 
 
